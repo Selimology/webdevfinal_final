@@ -1,30 +1,21 @@
 <?php
 class Database
 {
-    private $host = 'localhost';
-    private $user = 'root';
-    private $pass = '';
-    private $dbname = 'internship';
+    private $dsn = "mysql:host=localhost;dbname=internship";
+    private $user = "root";
+    private $pass = "";
+    public $conn;
 
     public function connect()
     {
-        $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbname . ";charset=UTF8";
-        echo "just testing";
         try {
-            $error = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
-            $this->pdo = new PDO($this->dsn, $this->user, $this->pass, $error);
+            $this->conn = new PDO($this->dsn, $this->user, $this->pass);
+            echo "Successfully connected to the server!";
         } catch (PDOException $e) {
+            echo "Successfully failed to the server!";
             die($e->getMessage());
         }
-        return $this->pdo;
-    }
-
-
-    public function filter_test($info)
-    {
-        $info = trim($info);
-        $info = stripslashes($info);
-        $info = htmlspecialchars($info);
-        return $info;
+        return $this->conn;
     }
 }
+$ob = new Database();
